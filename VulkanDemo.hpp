@@ -28,11 +28,15 @@ private:
 
     bool checkValidationLayerSupport();
 
+    void pickPhysicalDevice();
+
     GLFWwindow *window;
     
     VkInstance instance;
 
-    const std::vector<const char*> validationLayers = {
+    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
+
+    std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation"
     };
     

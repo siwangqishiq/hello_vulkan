@@ -21,6 +21,7 @@ void App::initWindow(){
 
 void App::initVulkan(){
     createInstance();
+    pickPhysicalDevice();
 }
 
 void App::createInstance(){
@@ -52,6 +53,8 @@ void App::createInstance(){
     instanceCreateInfo.ppEnabledExtensionNames = glfwExtension;
 
     if (enableValidationLayers) {
+        // const char *debugLayer = "VK_LAYER_LUNARG_monitor";
+        // validationLayers.push_back(debugLayer);
         instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
         instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
     } else {
@@ -69,7 +72,7 @@ bool App::checkValidationLayerSupport(){
 
     std::vector<VkLayerProperties> availableLayers(layerCount);
     vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
-
+    std::cout << "available layer count: " << layerCount << std::endl;
     for(auto &prop : availableLayers){
         std::cout << prop.layerName << " " << prop.description << std::endl;
     }
@@ -88,6 +91,31 @@ bool App::checkValidationLayerSupport(){
         }
     }
     return true;
+}
+
+void App::pickPhysicalDevice(){
+    uint32_t deviceCount = 0;
+    vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
+
+    if(deviceCount == 0){
+        throw std::runtime_error("failed to find GPUs with Vulkan support!");
+    }
+
+    std::vector<VkPhysicalDevice> devices(deviceCount);
+    vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
+    std::cout << "physical device count :" << deviceCount << std::endl;
+
+    for(VkPhysicalDevice &pDevice : devices){
+        VkPhysicalDeviceProperties prop;
+        vkGetPhysicalDeviceProperties(pDevice , &prop);
+
+        std::cout << "physical device name :" << prop.deviceName 
+            << " type " << prop.deviceType 
+            << " deviceid " << prop.deviceID 
+            << std::endl;
+    }//end for devices 
+    
+       
 }
 
 void App::mainLoop(){
