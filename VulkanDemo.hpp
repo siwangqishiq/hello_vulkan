@@ -28,11 +28,28 @@ private:
 
     bool checkValidationLayerSupport();
 
+    std::vector<const char*> getRequiredExtensions();
+
+    void setupDebugMessenger();
+
     void pickPhysicalDevice();
+
+    void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+
+    VkResult createDebugUtilsMessengerEXT(VkInstance instance, 
+        const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, 
+        const VkAllocationCallbacks* pAllocator, 
+        VkDebugUtilsMessengerEXT* pDebugMessenger);
+
+    void destroyDebugUtilsMessengerEXT(VkInstance instance, 
+            VkDebugUtilsMessengerEXT debugMessenger, 
+            const VkAllocationCallbacks* pAllocator);
 
     GLFWwindow *window;
     
     VkInstance instance;
+
+    VkDebugUtilsMessengerEXT debugMessenger;
 
     VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 
@@ -40,4 +57,9 @@ private:
         "VK_LAYER_KHRONOS_validation"
     };
     
+    static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
+        VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+        VkDebugUtilsMessageTypeFlagsEXT messageType,
+        const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+        void* pUserData);
 };
