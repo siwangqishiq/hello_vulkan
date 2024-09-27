@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include <stdexcept>
-#include "VulkanDemo.hpp"
+#include "VulkanDemo.h"
 
 int main(){
     App app;

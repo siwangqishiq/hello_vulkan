@@ -10,7 +10,7 @@ GLSL_C := glslangValidator
 build_dir:
 	mkdir -p ${BUILD_DIR}
 
-app.o:build_dir VulkanDemo.cpp VulkanDemo.hpp
+app.o:build_dir VulkanDemo.cpp VulkanDemo.h
 	${CC} -c ${SRC_DIR}/VulkanDemo.cpp -o ${BUILD_DIR}/app.o -I include/ ${CFLAGS}
 
 main:app.o

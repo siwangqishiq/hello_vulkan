@@ -1,5 +1,5 @@
 
-#include "VulkanDemo.hpp"
+#include "VulkanDemo.h"
 #include <iostream>
 #include <cstring>
 
@@ -22,6 +22,7 @@ void App::initWindow(){
 void App::initVulkan(){
     createInstance();
     setupDebugMessenger();
+    
     pickPhysicalDevice();
 }
 
@@ -60,7 +61,7 @@ void App::createInstance(){
         instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
         instanceCreateInfo.ppEnabledLayerNames = validationLayers.data();
 
-        auto extensions = getRequiredExtensions();
+        extensions = getRequiredExtensions();
         instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
         instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
 
@@ -70,10 +71,12 @@ void App::createInstance(){
         instanceCreateInfo.enabledLayerCount = 0;
         instanceCreateInfo.pNext = nullptr;
     }
-
+std::cout << "creat instance pre" << std::endl;
     if(vkCreateInstance(&instanceCreateInfo , nullptr , &instance) != VK_SUCCESS){
         throw std::runtime_error("failed to create instance!");
     }
+std::cout << "creat instance success" << std::endl;
+    
 }
 
 void App::setupDebugMessenger(){
@@ -134,13 +137,13 @@ bool App::checkValidationLayerSupport(){
     vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
     std::cout << "available layer count: " << layerCount << std::endl;
     for(auto &prop : availableLayers){
-        std::cout << prop.layerName << " " << prop.description << std::endl;
+        std::cout << prop.layerName << " : \t" << prop.description << std::endl;
     }
 
-    for (const char* layerName : validationLayers) {
+    for (std::string layerName : validationLayers) {
         bool layerFound = false;
         for (const auto& layerProperties : availableLayers) {
-            if (strcmp(layerName, layerProperties.layerName) == 0) {
+            if (layerName == std::string(layerProperties.layerName)) {
                 layerFound = true;
                 break;
             }
@@ -185,6 +188,8 @@ std::vector<const char*> App::getRequiredExtensions(){
     uint32_t glfwExtensionCount = 0;
     const char** glfwExtensions;
     glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+    std::cout << "glfwExtensionCount : " << glfwExtensionCount << std::endl;
 
     std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
     if (enableValidationLayers) {

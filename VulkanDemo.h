@@ -4,8 +4,8 @@
 #include "vulkan/vulkan.h"
 #include <vector>
 
-inline const int SCREEN_WIDTH = 800;
-inline const int SCREEN_HEIGHT = 600;
+inline const int SCREEN_WIDTH = 1280;
+inline const int SCREEN_HEIGHT = 800;
 
 inline const char *APP_NAME = "HelloVulkan";
 
@@ -58,6 +58,7 @@ private:
     std::vector<const char*> validationLayers = {
         "VK_LAYER_KHRONOS_validation"
     };
+    std::vector<const char*> extensions = {};
     
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
         VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
