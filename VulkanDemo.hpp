@@ -9,10 +9,12 @@ inline const int SCREEN_HEIGHT = 600;
 
 inline const char *APP_NAME = "HelloVulkan";
 
+#define DEBUG 1
+
 #ifdef DEBUG
     const bool enableValidationLayers = true;
 #else
-    const bool enableValidationLayers = true;
+    const bool enableValidationLayers = false;
 #endif
 
 class App{
